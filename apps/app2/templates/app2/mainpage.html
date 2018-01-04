@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>pokepage</title>
+  </head>
+  <style>
+    table,
+    th,
+    td{
+      border: 1px solid black;
+    }
+
+    .pokesbox{
+      border:1px solid black;
+      width:250px;
+    }
+  </style>
+  <body>
+    <h1>Welcome {{request.session.name}} !</h1>
+    <a href="/main/logout">Logout</a>
+
+    {% for x in downbox %}
+      {% if forloop.first %}
+        <h4>{{x.poked.count}} people poked you!</h4>
+      {% endif %}
+    {% endfor %}
+
+    <div class="pokesbox">
+      {% for x in downbox %}
+        {% for z in userlist %}
+          {% if forloop.first %}
+            {{z.personpoking.name}} poked you {{x.poking.count}} times !
+          {%endif%}
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+    <div class="peopletopoke">
+
+      <h4>People you may want to poke:</h4>
+
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Alias</th>
+          <th>Email Address</th>
+          <th>Poke History</th>
+          <th>Action</th>
+        </tr>
+        {% for x in downbox %}
+          <tr>
+            <td>{{x.name}}</td>
+            <td>{{x.alias}}</td>
+            <td>{{x.email}}</td>
+            <td>
+          {% for y in pokes_of_people_to_poke %}
+            {% if forloop.first %}
+              {{x.poked.count}}
+            {% endif %}
+          {% endfor %}
+          </td>
+            <td><a href="/main/pokes/{{x.id}}/"><button>Poke!</button></a></td>
+          </tr>
+        {%endfor%}
+      </table>
+
+    </div>
+  </body>
+</html>
